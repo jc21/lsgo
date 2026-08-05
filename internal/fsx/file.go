@@ -6,6 +6,7 @@ package fsx
 import (
 	"os"
 	"path/filepath"
+	"slices"
 	"strings"
 	"time"
 )
@@ -160,7 +161,7 @@ func (f *File) PointsToDirectory() bool {
 // or it couldn't be read for some other reason -- callers that need to
 // distinguish those cases should use LinkTargetDetailed.
 func (f *File) LinkTarget() (*File, bool) {
-	target, err, broken := f.LinkTargetDetailed()
+	target, broken, err := f.LinkTargetDetailed()
 	if err != nil || broken {
 		return nil, false
 	}
@@ -168,19 +169,19 @@ func (f *File) LinkTarget() (*File, bool) {
 }
 
 // LinkTargetDetailed resolves a symlink, distinguishing three outcomes: a
-// successfully resolved target, a broken link (err is nil, broken is
-// true), and a read error (err is non-nil).
-func (f *File) LinkTargetDetailed() (target *File, err error, broken bool) {
+// successfully resolved target, a broken link (broken is true, err is
+// nil), and a read error (err is non-nil).
+func (f *File) LinkTargetDetailed() (target *File, broken bool, err error) {
 	raw, readErr := os.Readlink(f.Path)
 	if readErr != nil {
-		return nil, readErr, false
+		return nil, false, readErr
 	}
 
 	absolute := f.reorient(raw)
 
 	info, statErr := os.Stat(absolute)
 	if statErr != nil {
-		return nil, nil, true
+		return nil, true, nil
 	}
 
 	return &File{
@@ -188,7 +189,7 @@ func (f *File) LinkTargetDetailed() (target *File, err error, broken bool) {
 		Ext:  extensionOf(raw),
 		Path: raw,
 		Info: info,
-	}, nil, false
+	}, false, nil
 }
 
 // LinkTargetRaw returns the raw (unresolved) target path of a symlink,
@@ -216,23 +217,13 @@ func (f *File) ExtensionIsOneOf(choices ...string) bool {
 	if f.Ext == "" {
 		return false
 	}
-	for _, c := range choices {
-		if f.Ext == c {
-			return true
-		}
-	}
-	return false
+	return slices.Contains(choices, f.Ext)
 }
 
 // NameIsOneOf reports whether this file's full name is any of the given
 // choices.
 func (f *File) NameIsOneOf(choices ...string) bool {
-	for _, c := range choices {
-		if f.Name == c {
-			return true
-		}
-	}
-	return false
+	return slices.Contains(choices, f.Name)
 }
 
 // ModTime returns the file's last-modified time.

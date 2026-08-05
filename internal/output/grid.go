@@ -82,13 +82,13 @@ func RenderGrid(cells []Cell, consoleWidth int, across bool) string {
 	rows := (n + cols - 1) / cols
 
 	var b strings.Builder
-	for r := 0; r < rows; r++ {
+	for r := range rows {
 		type placed struct {
 			idx, col int
 		}
 		var line []placed
 
-		for c := 0; c < cols; c++ {
+		for c := range cols {
 			var idx int
 			if across {
 				idx = r*cols + c

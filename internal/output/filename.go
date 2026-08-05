@@ -142,7 +142,7 @@ func RenderFileName(th *theme.Theme, opts FileNameOptions, f *fsx.File, withLink
 // when there's nowhere else (i.e. no link target arrow) to show that fact.
 func brokenAwareStyle(th *theme.Theme, f *fsx.File) style.Style {
 	if f.IsLink() {
-		if _, err, broken := f.LinkTargetDetailed(); err == nil && broken {
+		if _, broken, err := f.LinkTargetDetailed(); err == nil && broken {
 			return th.UI.BrokenSymlink
 		}
 	}
@@ -150,7 +150,7 @@ func brokenAwareStyle(th *theme.Theme, f *fsx.File) style.Style {
 }
 
 func renderLinkTarget(th *theme.Theme, cell *Cell, f *fsx.File) {
-	target, err, broken := f.LinkTargetDetailed()
+	target, broken, err := f.LinkTargetDetailed()
 
 	switch {
 	case err != nil:

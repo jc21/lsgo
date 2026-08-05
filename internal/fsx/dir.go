@@ -3,6 +3,7 @@ package fsx
 import (
 	"os"
 	"path/filepath"
+	"slices"
 	"strings"
 )
 
@@ -37,12 +38,7 @@ func ReadDir(path string) (*Dir, error) {
 // Contains reports whether this directory contains an entry with the given
 // path, used to detect e.g. a matching source file for a compiled object.
 func (d *Dir) Contains(path string) bool {
-	for _, c := range d.contents {
-		if c == path {
-			return true
-		}
-	}
-	return false
+	return slices.Contains(d.contents, path)
 }
 
 // Join appends a child path onto this directory's path.

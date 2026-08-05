@@ -237,6 +237,10 @@ func deduceFilter(flags *ParsedFlags) (fsx.FileFilter, error) {
 	}, nil
 }
 
+// sortValueSize is the --sort value for ordering by file size. Named since
+// parser_test.go also uses it as its example --sort value.
+const sortValueSize = "size"
+
 func deduceSortSpec(flags *ParsedFlags) (fsx.SortSpec, error) {
 	word, ok := flags.Value("sort")
 	if !ok {
@@ -252,21 +256,21 @@ func deduceSortSpec(flags *ParsedFlags) (fsx.SortSpec, error) {
 		return fsx.SortSpec{Field: fsx.SortByNameMixHidden, Case: fsx.CaseInsensitive}, nil
 	case ".Name", ".Filename":
 		return fsx.SortSpec{Field: fsx.SortByNameMixHidden, Case: fsx.CaseSensitive}, nil
-	case "size", "filesize":
+	case sortValueSize, "filesize":
 		return fsx.SortSpec{Field: fsx.SortBySize}, nil
 	case "ext", "extension":
 		return fsx.SortSpec{Field: fsx.SortByExtension, Case: fsx.CaseInsensitive}, nil
 	case "Ext", "Extension":
 		return fsx.SortSpec{Field: fsx.SortByExtension, Case: fsx.CaseSensitive}, nil
-	case "date", "time", "mod", "modified", "new", "newest":
+	case "date", "time", "mod", longModified, "new", "newest":
 		return fsx.SortSpec{Field: fsx.SortByModified}, nil
 	case "age", "old", "oldest":
 		return fsx.SortSpec{Field: fsx.SortByModifiedAge}, nil
-	case "ch", "changed":
+	case "ch", longChanged:
 		return fsx.SortSpec{Field: fsx.SortByChanged}, nil
-	case "acc", "accessed":
+	case "acc", longAccessed:
 		return fsx.SortSpec{Field: fsx.SortByAccessed}, nil
-	case "cr", "created":
+	case "cr", longCreated:
 		return fsx.SortSpec{Field: fsx.SortByCreated}, nil
 	case "inode":
 		return fsx.SortSpec{Field: fsx.SortByInode}, nil
@@ -332,13 +336,13 @@ func deduceTimeTypes(flags *ParsedFlags) (output.TimeTypes, error) {
 
 	if word, ok := flags.Value("time"); ok {
 		switch word {
-		case "mod", "modified":
+		case "mod", longModified:
 			return output.TimeTypes{Modified: true}, nil
-		case "ch", "changed":
+		case "ch", longChanged:
 			return output.TimeTypes{Changed: true}, nil
-		case "acc", "accessed":
+		case "acc", longAccessed:
 			return output.TimeTypes{Accessed: true}, nil
-		case "cr", "created":
+		case "cr", longCreated:
 			return output.TimeTypes{Created: true}, nil
 		default:
 			return output.TimeTypes{}, &ParseError{Msg: fmt.Sprintf("invalid value for --time: %q", word)}
@@ -346,10 +350,10 @@ func deduceTimeTypes(flags *ParsedFlags) (output.TimeTypes, error) {
 	}
 
 	tt := output.TimeTypes{
-		Modified: flags.Has("modified"),
-		Changed:  flags.Has("changed"),
-		Accessed: flags.Has("accessed"),
-		Created:  flags.Has("created"),
+		Modified: flags.Has(longModified),
+		Changed:  flags.Has(longChanged),
+		Accessed: flags.Has(longAccessed),
+		Created:  flags.Has(longCreated),
 	}
 	if tt.Modified || tt.Changed || tt.Accessed || tt.Created {
 		return tt, nil

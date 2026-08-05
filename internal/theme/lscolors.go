@@ -148,7 +148,10 @@ func parseHighColour(rest []string) (style.Colour, int, bool) {
 			}
 			consumed = idx + 1
 			n, err := strconv.Atoi(rest[idx])
-			return uint8(n), err == nil && n >= 0 && n <= 255
+			if err != nil || n < 0 || n > 255 {
+				return 0, false
+			}
+			return uint8(n), true
 		}
 
 		r, rOK := parseByte(1)

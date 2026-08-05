@@ -3,13 +3,15 @@ package fsx
 import "testing"
 
 func TestNaturalCompareNumericOrdering(t *testing.T) {
+	const file2 = "file2" // reused below for the "equal to itself" case
+
 	cases := []struct {
 		a, b string
 		want int
 	}{
-		{"file2", "file10", -1},
-		{"file10", "file2", 1},
-		{"file2", "file2", 0},
+		{file2, "file10", -1},
+		{"file10", file2, 1},
+		{file2, file2, 0},
 		{"a", "b", -1},
 		{"img09.png", "img10.png", -1},
 		{"img9.png", "img10.png", -1},

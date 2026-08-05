@@ -18,6 +18,17 @@ type flagDef struct {
 	kind  valueKind
 }
 
+// Canonical long names for the four per-timestamp long-view flags. These
+// are checked directly (via flags.Has) in options.go's deduceTimeTypes, in
+// addition to appearing in flagDefs below and as --sort/--time value
+// aliases, so they're named constants rather than repeated literals.
+const (
+	longModified = "modified"
+	longChanged  = "changed"
+	longAccessed = "accessed"
+	longCreated  = "created"
+)
+
 // flagDefs is the full set of flags lsgo understands, mirroring the
 // reference implementation's option surface.
 var flagDefs = []flagDef{
@@ -55,12 +66,12 @@ var flagDefs = []flagDef{
 	{long: "icons"},
 	{short: 'i', long: "inode"},
 	{short: 'H', long: "links"},
-	{short: 'm', long: "modified"},
-	{long: "changed"},
+	{short: 'm', long: longModified},
+	{long: longChanged},
 	{short: 'S', long: "blocks"},
 	{short: 't', long: "time", kind: takesValue},
-	{short: 'u', long: "accessed"},
-	{short: 'U', long: "created"},
+	{short: 'u', long: longAccessed},
+	{short: 'U', long: longCreated},
 	{long: "time-style", kind: takesValue},
 
 	// Suppressing columns.

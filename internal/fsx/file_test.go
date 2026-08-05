@@ -93,7 +93,7 @@ func TestBrokenSymlink(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	_, _, broken := f.LinkTargetDetailed()
+	_, broken, _ := f.LinkTargetDetailed()
 	if !broken {
 		t.Error("expected broken symlink to be reported as broken")
 	}

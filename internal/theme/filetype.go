@@ -72,6 +72,13 @@ func (c chainedColours) ColourFile(f *fsx.File) (style.Style, bool) {
 // (and an icon) without any user configuration.
 type FileExtensions struct{}
 
+// These classification lists are reference data: several of their entries
+// (e.g. "Makefile", "avif", "class") also recur in icons.go's lookup maps
+// and icons_test.go's independent cross-check. Constant-izing every shared
+// literal would trade scannable, self-evident tables for indirection with
+// no correctness upside, so goconst is suppressed for this block.
+//
+//nolint:goconst
 var (
 	immediateNames = []string{
 		"Makefile", "Cargo.toml", "SConstruct", "CMakeLists.txt",
@@ -169,7 +176,7 @@ func sourceExtsFor(compiledExt string) []string {
 	case "pyc":
 		return []string{"py"}
 	case "class":
-		return []string{"java"}
+		return []string{"java"} //nolint:goconst // see the classification lists' doc comment above
 	case "hi":
 		return []string{"hs"}
 	case "elc":

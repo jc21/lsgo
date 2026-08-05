@@ -12,6 +12,9 @@ import "testing"
 // built by "typing what it looks like" can't catch a transposed hex
 // digit. A bare integer can't be misread the same way.
 func TestIconCodePoints(t *testing.T) {
+	//nolint:goconst // independent cross-check data, see icons.go's
+	// iconsByName/iconsByExtension doc comments for why these literals
+	// aren't shared constants.
 	wantByName := map[string]uint32{
 		".Trash": 0xf1f8, ".atom": 0xe764, ".bashprofile": 0xe615,
 		".bashrc": 0xf489, ".git": 0xf1d3, ".gitattributes": 0xf1d3,
@@ -47,6 +50,9 @@ func TestIconCodePoints(t *testing.T) {
 
 	// The five entries using 0xf0XXX code points live in Unicode's
 	// Supplementary Private Use Area-A (above 0xFFFF).
+	//nolint:goconst // independent cross-check data, see icons.go's
+	// iconsByExtension doc comment for why these literals aren't shared
+	// constants.
 	wantByExt := map[string]uint32{
 		"ai": 0xe7b4, "android": 0xe70e, "apk": 0xe70e, "apple": 0xf179,
 		"avi": 0xf03d, "avif": 0xf1c5, "avro": 0xe60b, "awk": 0xf489,

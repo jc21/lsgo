@@ -2,7 +2,7 @@ package fsx
 
 import (
 	"path/filepath"
-	"sort"
+	"slices"
 	"time"
 )
 
@@ -53,9 +53,6 @@ func DefaultSortSpec() SortSpec {
 // that.
 func (s SortSpec) Compare(a, b *File) int {
 	switch s.Field {
-	case SortUnsorted:
-		return 0
-
 	case SortByName:
 		if s.Case == CaseSensitive {
 			return naturalCompare(a.Name, b.Name)
@@ -114,10 +111,11 @@ func (s SortSpec) Compare(a, b *File) int {
 			return 1
 		}
 		return naturalCompare(a.Name, b.Name)
-
-	default:
-		return 0
 	}
+
+	// SortUnsorted (and any other unhandled field) leaves files in
+	// whatever order they were already in.
+	return 0
 }
 
 func stripDot(name string) string {
@@ -237,17 +235,22 @@ func (ff FileFilter) FilterArgumentFiles(files []*File) []*File {
 // SortFiles orders files in place according to the sort field, reversal,
 // and directories-first settings.
 func (ff FileFilter) SortFiles(files []*File) {
-	sort.SliceStable(files, func(i, j int) bool {
-		return ff.Sort.Compare(files[i], files[j]) < 0
-	})
+	slices.SortStableFunc(files, ff.Sort.Compare)
 
 	if ff.Reverse {
 		reverseFiles(files)
 	}
 
 	if ff.ListDirsFirst {
-		sort.SliceStable(files, func(i, j int) bool {
-			return files[i].PointsToDirectory() && !files[j].PointsToDirectory()
+		slices.SortStableFunc(files, func(a, b *File) int {
+			switch {
+			case a.PointsToDirectory() && !b.PointsToDirectory():
+				return -1
+			case b.PointsToDirectory() && !a.PointsToDirectory():
+				return 1
+			default:
+				return 0
+			}
 		})
 	}
 }

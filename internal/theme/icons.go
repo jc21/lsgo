@@ -18,6 +18,12 @@ const (
 // iconsByName covers files and directories that are recognised by their
 // exact name rather than their extension -- dotfiles, and directories like
 // "node_modules" that have a well-known meaning.
+//
+// Names recur across this map, the extension map below, filetype.go's
+// classification lists, and icons_test.go's independent cross-check -- see
+// the comment on iconsByExtension below for why goconst is suppressed here.
+//
+//nolint:goconst
 var iconsByName = map[string]rune{
 	".Trash":             '',
 	".atom":              '',
@@ -71,6 +77,17 @@ var directoryIconsByName = map[string]rune{
 
 // iconsByExtension is lsgo's big "what kind of file is this, by extension"
 // icon table.
+//
+// icons_test.go deliberately duplicates every entry here as an independent
+// hex-literal cross-check (see CLAUDE.md "Icon glyphs" -- these private-use
+// glyphs look identical to each other regardless of code point, so a
+// transposed hex digit needs an independently-typed reference to catch it).
+// Extension strings also recur in filetype.go's classification lists.
+// Constant-izing them would hide these plain, scannable literals behind
+// indirection for no correctness benefit, so dupl and goconst are
+// suppressed for this table and its icons_test.go counterpart.
+//
+//nolint:dupl,goconst
 var iconsByExtension = map[string]rune{
 	"ai": '', "android": '', "apk": '', "apple": '',
 	"avi": '', "avif": '', "avro": '', "awk": '',

@@ -27,7 +27,11 @@ type winsize struct {
 // ioctl).
 func Width(fd uintptr) (int, bool) {
 	var ws winsize
-	_, _, errno := syscall.Syscall(syscall.SYS_IOCTL, fd, tiocgwinsz, uintptr(unsafe.Pointer(&ws)))
+	// This unsafe.Pointer is the standard, audited pattern for a raw
+	// TIOCGWINSZ ioctl: syscall.Syscall needs a uintptr to &ws's memory to
+	// fill in, and there's no other way to get terminal width without an
+	// external dependency (see CLAUDE.md "Why zero dependencies").
+	_, _, errno := syscall.Syscall(syscall.SYS_IOCTL, fd, tiocgwinsz, uintptr(unsafe.Pointer(&ws))) //nolint:gosec
 	if errno != 0 || ws.Col == 0 {
 		return 0, false
 	}

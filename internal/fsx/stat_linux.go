@@ -23,7 +23,11 @@ func (f *File) Inode() uint64 {
 // LinkCount returns the number of hard links to this file.
 func (f *File) LinkCount() uint64 {
 	if st, ok := f.statT(); ok {
-		return uint64(st.Nlink)
+		// st.Nlink's width varies by architecture on Linux (uint64 on
+		// amd64, uint32 on arm64/386/arm) -- unconvert flags this as
+		// unnecessary because it only ever lints the host's own GOARCH,
+		// but the explicit conversion is required for the narrower ones.
+		return uint64(st.Nlink) //nolint:unconvert
 	}
 	return 1
 }
@@ -88,6 +92,6 @@ func (f *File) ChangedTime() time.Time {
 // back to the modified time for --created / --time=created on this
 // platform, same as the modified time is used for --changed on Windows in
 // the original implementation.
-func (f *File) CreatedTime() (time.Time, bool) {
+func (*File) CreatedTime() (time.Time, bool) {
 	return time.Time{}, false
 }

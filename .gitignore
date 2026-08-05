@@ -1,2 +1,2 @@
-/lsgo
-*.test
+dist
+test-results

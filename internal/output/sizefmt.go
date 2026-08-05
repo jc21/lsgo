@@ -39,7 +39,7 @@ const (
 
 // splitPrefix divides size by the given base repeatedly, returning the
 // scaled value and which prefix (if any) was used.
-func splitPrefix(size float64, base float64, prefixes []string) (value float64, symbol string, mag magnitude, none bool) {
+func splitPrefix(size, base float64, prefixes []string) (value float64, symbol string, mag magnitude, none bool) {
 	value = size
 	idx := -1 // counts completed divisions minus one, so 1 division => index 0 ("k")
 	for value >= base && idx < len(prefixes)-1 {

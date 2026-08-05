@@ -105,7 +105,7 @@ func (p Permissions) Octal() string {
 			n += 2
 		}
 		if x {
-			n += 1
+			n++
 		}
 		return n
 	}

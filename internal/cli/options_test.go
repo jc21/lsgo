@@ -7,6 +7,15 @@ import (
 	"lsgo/internal/output"
 )
 
+// The four view-mode flags, named since TestModeSelectionPrecedence's table
+// (and a couple of parser tests) combine them repeatedly.
+const (
+	flagOneline = "--oneline"
+	flagLong    = "--long"
+	flagGrid    = "--grid"
+	flagTree    = "--tree"
+)
+
 func noEnv(string) (string, bool)    { return "", false }
 func noProbe() (int, bool)           { return 0, false }
 func fixedProbe(w int) TerminalProbe { return func() (int, bool) { return w, true } }
@@ -40,20 +49,20 @@ func TestModeSelectionPrecedence(t *testing.T) {
 	}{
 		{[]string{}, ModeGrid},
 		{[]string{"-G"}, ModeGrid},
-		{[]string{"--oneline"}, ModeLines},
+		{[]string{flagOneline}, ModeLines},
 		{[]string{"-1"}, ModeLines},
-		{[]string{"--long"}, ModeDetails},
+		{[]string{flagLong}, ModeDetails},
 		{[]string{"-l"}, ModeDetails},
-		{[]string{"--long", "--grid"}, ModeDetails},
+		{[]string{flagLong, flagGrid}, ModeDetails},
 		{[]string{"-lG"}, ModeDetails},
-		{[]string{"--long", "--across"}, ModeDetails},
-		{[]string{"--long", "--grid", "--oneline"}, ModeLines},
-		{[]string{"--long", "--grid", "--tree"}, ModeDetails},
-		{[]string{"--tree", "--grid", "--long"}, ModeDetails},
-		{[]string{"--tree", "--long", "--grid"}, ModeDetails},
-		{[]string{"--oneline", "--tree"}, ModeDetails},
-		{[]string{"--oneline", "--grid"}, ModeGrid},
-		{[]string{"--tree", "--grid"}, ModeGrid},
+		{[]string{flagLong, "--across"}, ModeDetails},
+		{[]string{flagLong, flagGrid, flagOneline}, ModeLines},
+		{[]string{flagLong, flagGrid, flagTree}, ModeDetails},
+		{[]string{flagTree, flagGrid, flagLong}, ModeDetails},
+		{[]string{flagTree, flagLong, flagGrid}, ModeDetails},
+		{[]string{flagOneline, flagTree}, ModeDetails},
+		{[]string{flagOneline, flagGrid}, ModeGrid},
+		{[]string{flagTree, flagGrid}, ModeGrid},
 		{[]string{"--header"}, ModeGrid}, // no effect without --long
 	}
 
@@ -66,7 +75,7 @@ func TestModeSelectionPrecedence(t *testing.T) {
 }
 
 func TestTreeWithoutLongHasNoTable(t *testing.T) {
-	opts := parse(t, "--tree")
+	opts := parse(t, flagTree)
 	if opts.Mode != ModeDetails {
 		t.Fatalf("expected details mode, got %v", opts.Mode)
 	}
@@ -82,7 +91,7 @@ func TestTreeGivesWayToGridModeDropsRecursion(t *testing.T) {
 	// "--tree --grid" resolves to plain Grid mode (grid wins), so tree
 	// recursion shouldn't be requested at all: it wouldn't be honoured
 	// by the grid renderer anyway.
-	opts := parse(t, "--tree", "--grid")
+	opts := parse(t, flagTree, flagGrid)
 	if opts.DirAction.Kind == DirRecurse && opts.DirAction.Recurse.Tree {
 		t.Error("expected tree recursion not to be requested when grid mode wins")
 	}
@@ -142,14 +151,14 @@ func TestColorModeNoColorEnv(t *testing.T) {
 }
 
 func TestSizeFormatFlags(t *testing.T) {
-	opts := parse(t, "--long", "--binary")
+	opts := parse(t, flagLong, "--binary")
 	if opts.TableOptions.SizeFormat != output.BinarySize {
 		t.Errorf("expected binary size format, got %v", opts.TableOptions.SizeFormat)
 	}
 }
 
 func TestNoPermissionsSuppressesColumn(t *testing.T) {
-	opts := parse(t, "--long", "--no-permissions")
+	opts := parse(t, flagLong, "--no-permissions")
 	for _, c := range opts.TableOptions.Columns.Collect(false) {
 		if c.Kind == output.ColPermissions {
 			t.Fatal("expected permissions column to be suppressed")
@@ -158,7 +167,7 @@ func TestNoPermissionsSuppressesColumn(t *testing.T) {
 }
 
 func TestGitColumnRequiresGitFlagAndRepo(t *testing.T) {
-	opts := parse(t, "--long", "--git")
+	opts := parse(t, flagLong, "--git")
 	cols := opts.TableOptions.Columns.Collect(false)
 	for _, c := range cols {
 		if c.Kind == output.ColGitStatus {

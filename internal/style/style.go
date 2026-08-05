@@ -98,24 +98,54 @@ type Style struct {
 
 // Convenience constructors on Colour, mirroring the chainable style-builder
 // pattern used throughout the renderers (e.g. style.Yellow.Bold()).
-func (c Colour) Normal() Style      { return Style{Foreground: c} }
-func (c Colour) Bold() Style        { return Style{Foreground: c, Bold: true} }
-func (c Colour) Dimmed() Style      { return Style{Foreground: c, Dim: true} }
-func (c Colour) Italic() Style      { return Style{Foreground: c, Italic: true} }
-func (c Colour) Underline() Style   { return Style{Foreground: c, Underline: true} }
+
+// Normal returns a Style using this foreground colour with no attributes.
+func (c Colour) Normal() Style { return Style{Foreground: c} }
+
+// Bold returns a Style using this foreground colour, bolded.
+func (c Colour) Bold() Style { return Style{Foreground: c, Bold: true} }
+
+// Dimmed returns a Style using this foreground colour, dimmed.
+func (c Colour) Dimmed() Style { return Style{Foreground: c, Dim: true} }
+
+// Italic returns a Style using this foreground colour, italicised.
+func (c Colour) Italic() Style { return Style{Foreground: c, Italic: true} }
+
+// Underline returns a Style using this foreground colour, underlined.
+func (c Colour) Underline() Style { return Style{Foreground: c, Underline: true} }
+
+// On returns a Style using this foreground colour on the given background.
 func (c Colour) On(bg Colour) Style { return Style{Foreground: c, Background: bg} }
 
 // Chain methods on Style, so attributes can be layered onto an existing
 // style: e.g. Green.Bold().Underline().
-func (s Style) SetBold() Style          { s.Bold = true; return s }
-func (s Style) SetDim() Style           { s.Dim = true; return s }
-func (s Style) SetItalic() Style        { s.Italic = true; return s }
-func (s Style) SetUnderline() Style     { s.Underline = true; return s }
-func (s Style) SetBlink() Style         { s.Blink = true; return s }
-func (s Style) SetReverse() Style       { s.Reverse = true; return s }
-func (s Style) SetHidden() Style        { s.Hidden = true; return s }
+
+// SetBold returns a copy of s with Bold set.
+func (s Style) SetBold() Style { s.Bold = true; return s }
+
+// SetDim returns a copy of s with Dim set.
+func (s Style) SetDim() Style { s.Dim = true; return s }
+
+// SetItalic returns a copy of s with Italic set.
+func (s Style) SetItalic() Style { s.Italic = true; return s }
+
+// SetUnderline returns a copy of s with Underline set.
+func (s Style) SetUnderline() Style { s.Underline = true; return s }
+
+// SetBlink returns a copy of s with Blink set.
+func (s Style) SetBlink() Style { s.Blink = true; return s }
+
+// SetReverse returns a copy of s with Reverse set.
+func (s Style) SetReverse() Style { s.Reverse = true; return s }
+
+// SetHidden returns a copy of s with Hidden set.
+func (s Style) SetHidden() Style { s.Hidden = true; return s }
+
+// SetStrikethrough returns a copy of s with Strikethrough set.
 func (s Style) SetStrikethrough() Style { s.Strikethrough = true; return s }
-func (s Style) On(bg Colour) Style      { s.Background = bg; return s }
+
+// On returns a copy of s with Background set to bg.
+func (s Style) On(bg Colour) Style { s.Background = bg; return s }
 
 // IsPlain reports whether this style has no colours or attributes set, in
 // which case painting is a no-op.

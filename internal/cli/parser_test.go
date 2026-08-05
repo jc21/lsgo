@@ -62,24 +62,24 @@ func TestParseShortValueSeparateArg(t *testing.T) {
 }
 
 func TestParseLongValueWithEquals(t *testing.T) {
-	f, err := Parse([]string{"--sort=size"})
+	f, err := Parse([]string{"--sort=" + sortValueSize})
 	if err != nil {
 		t.Fatal(err)
 	}
 	v, _ := f.Value("sort")
-	if v != "size" {
-		t.Errorf("expected sort=size, got %q", v)
+	if v != sortValueSize {
+		t.Errorf("expected sort=%s, got %q", sortValueSize, v)
 	}
 }
 
 func TestParseLongValueSeparateArg(t *testing.T) {
-	f, err := Parse([]string{"--sort", "size"})
+	f, err := Parse([]string{"--sort", sortValueSize})
 	if err != nil {
 		t.Fatal(err)
 	}
 	v, _ := f.Value("sort")
-	if v != "size" {
-		t.Errorf("expected sort=size, got %q", v)
+	if v != sortValueSize {
+		t.Errorf("expected sort=%s, got %q", sortValueSize, v)
 	}
 }
 
@@ -159,7 +159,7 @@ func TestParseMissingValueErrors(t *testing.T) {
 }
 
 func TestLastOfPicksMostRecentAcrossDifferentFlags(t *testing.T) {
-	f, err := Parse([]string{"--oneline", "--long", "--grid"})
+	f, err := Parse([]string{flagOneline, flagLong, flagGrid})
 	if err != nil {
 		t.Fatal(err)
 	}

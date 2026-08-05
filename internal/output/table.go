@@ -483,7 +483,11 @@ func (t *Table) renderSize(ui *theme.UIStyles, f *fsx.File) Cell {
 		major, minor := f.DeviceIDs()
 		return RenderDeviceIDs(ui, major, minor)
 	default:
-		return RenderSize(ui, t.options.SizeFormat, uint64(f.Info.Size()))
+		// os.FileInfo.Size() is declared int64; guard the negative case
+		// explicitly (rather than converting straight to uint64) since a
+		// negative size would otherwise wrap to a huge value.
+		size := max(f.Info.Size(), 0)
+		return RenderSize(ui, t.options.SizeFormat, uint64(size))
 	}
 }
 

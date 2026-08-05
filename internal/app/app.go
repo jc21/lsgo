@@ -110,10 +110,9 @@ func unwrapStatErr(err error) error {
 // inline by the details renderer, since it needs to interleave rows).
 func (a *App) printDirs(dirs []*fsx.Dir, first, isOnlyDir bool, depth int) {
 	for i, dir := range dirs {
-		if first && i == 0 {
-			// no leading blank line before the very first thing printed
-		} else {
-			fmt.Fprintln(a.Stdout)
+		// no leading blank line before the very first thing printed
+		if !first || i != 0 {
+			_, _ = fmt.Fprintln(a.Stdout)
 		}
 
 		if !isOnlyDir {
@@ -131,7 +130,6 @@ func (a *App) printDirs(dirs []*fsx.Dir, first, isOnlyDir bool, depth int) {
 
 		if a.Opts.DirAction.Kind == cli.DirRecurse && !a.Opts.DirAction.Recurse.Tree &&
 			!a.Opts.DirAction.Recurse.IsTooDeep(depth) {
-
 			var childDirs []*fsx.Dir
 			for _, c := range children {
 				if c.IsDirectory() && !c.IsDotEntry {
@@ -155,7 +153,7 @@ func (a *App) printDirs(dirs []*fsx.Dir, first, isOnlyDir bool, depth int) {
 // printFiles renders one set of files (either the loose files named
 // directly on the command line, or one directory's children) using
 // whichever view was selected.
-func (a *App) printFiles(dir *fsx.Dir, files []*fsx.File) {
+func (a *App) printFiles(_ *fsx.Dir, files []*fsx.File) {
 	if len(files) == 0 {
 		return
 	}
@@ -199,7 +197,7 @@ func (a *App) printFiles(dir *fsx.Dir, files []*fsx.File) {
 		}
 
 		if err := renderer.Render(a.Stdout, files); err != nil {
-			fmt.Fprintln(a.Stderr, err)
+			_, _ = fmt.Fprintln(a.Stderr, err)
 		}
 	}
 }
