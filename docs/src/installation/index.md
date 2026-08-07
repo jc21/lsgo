@@ -2,21 +2,17 @@
 outline: deep
 ---
 
-# Installation
+# Installation Options
 
-`lsgo` has zero external dependencies, which keeps installation to a single
-step: build it with the Go toolchain. There's no package manager listing or
-prebuilt binary release yet — building from source is currently the only
-supported path, and it's a fast one since there's nothing to fetch.
+1. Download a prebuilt binary from the [releases](https://github.com/jc21/lsgo/releases)
+2. Go path installation
+3. Build from source
+4. Homebrew manual installation
 
-## Prerequisites
-
-- [Go](https://go.dev/dl/) 1.22 or newer
-
-Check your version with:
+## Go path installation
 
 ```sh
-go version
+go install github.com/jc21/lsgo@latest
 ```
 
 ## Build from source
@@ -36,17 +32,24 @@ runtime dependencies. Move it anywhere on your `PATH`, for example:
 sudo mv lsgo /usr/local/bin/
 ```
 
-## Install straight to your GOPATH
 
-If you'd rather skip the manual move, `go install` places the binary in
-`$(go env GOBIN)` (or `$(go env GOPATH)/bin` if `GOBIN` isn't set) — make
-sure that directory is on your `PATH`:
+## Homebrew manual installation
 
-```sh
-git clone https://github.com/jc21/lsgo.git
-cd lsgo
-go install .
+```bash
+export HOMEBREW_NO_INSTALL_FROM_API=1
+brew update
+brew tap --force homebrew/core
+cd $(brew --repo homebrew/core)
+git remote add jc21 https://github.com/jc21/homebrew-core.git
+git fetch --all
+git checkout jc21/lsgo
+brew install --build-from-source lsgo
+# and if you need to rebuild:
+brew reinstall --build-from-source lsgo
+# Switch back to homebrew-core master
+git checkout master
 ```
+
 
 ## Verifying the install
 

@@ -8,6 +8,12 @@ RESET='\033[0m'
 PROJECT_DIR="$(cd -- "$(dirname -- "$0")/.." && pwd)"
 cd "$PROJECT_DIR"
 
+VERSION="${1:-}"
+if [ "$VERSION" = "" ]; then
+	echo "Usage: $0 <version>"
+	exit 1
+fi
+
 trap cleanup EXIT
 cleanup() {
 	if [ "$?" -ne 0 ]; then
@@ -46,10 +52,10 @@ for platform in "${PLATFORMS[@]}"; do
 		ext=".exe"
 	fi
 
-	out="dist/lsgo_${GOOS}_${GOARCH}${ext}"
+	out="dist/lsgo_v${VERSION}_${GOOS}_${GOARCH}${ext}"
 
 	echo "Building ${out}..."
-	CGO_ENABLED=0 GOOS="$GOOS" GOARCH="$GOARCH" go build -o "$out" main.go
+	CGO_ENABLED=0 GOOS="$GOOS" GOARCH="$GOARCH" go build -ldflags "-X main.Version=v${VERSION}" -o "$out" main.go
 done
 
 echo -e "${YELLOW}Build completed for ${#PLATFORMS[@]} platforms in dist/${RESET}"

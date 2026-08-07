@@ -43,7 +43,13 @@ wasn't strictly necessary.
 
 ## Quick Start
 
-Build from source with the Go toolchain:
+Go path install:
+
+```sh
+go install github.com/jc21/lsgo@latest
+```
+
+or build from source with the Go toolchain:
 
 ```sh
 go build -o lsgo .

@@ -13,6 +13,8 @@ import (
 	"github.com/jc21/lsgo/internal/termwidth"
 )
 
+var Version = "0.0.0" // overridden at build time
+
 func main() {
 	os.Exit(run(os.Args[1:], os.Stdout, os.Stderr))
 }
@@ -32,7 +34,7 @@ func run(argv []string, stdout, stderr *os.File) int {
 		return app.ExitSuccess
 	}
 	if result.ShowVersion {
-		fmt.Fprintf(stdout, "lsgo %s\n", cli.Version)
+		fmt.Fprintf(stdout, "lsgo %s\n", Version)
 		return app.ExitSuccess
 	}
 

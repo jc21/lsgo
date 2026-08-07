@@ -1,8 +1,5 @@
 package cli
 
-// Version is lsgo's own release identifier.
-const Version = "0.1.0"
-
 // HelpText is printed for -?/--help.
 const HelpText = `Usage:
   lsgo [options] [files...]
