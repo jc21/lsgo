@@ -36,6 +36,13 @@ export default defineConfig({
 			},
 		],
 		["meta", { name: "twitter:alt", content: "lsgo" }],
+		[
+			"script",
+			{
+				async: "true",
+				src: "https://www.googletagmanager.com/gtag/js?id=G-TWRY418VLV",
+			},
+		],
 	],
 	sitemap: {
 		hostname: "https://lsgo.jc21.com",
