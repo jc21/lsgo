@@ -3,7 +3,7 @@ package output
 import (
 	"testing"
 
-	"lsgo/internal/style"
+	"github.com/jc21/lsgo/internal/style"
 )
 
 func TestNewCellIsEmpty(t *testing.T) {

@@ -5,7 +5,7 @@ import (
 	"path/filepath"
 	"testing"
 
-	"lsgo/internal/fsx"
+	"github.com/jc21/lsgo/internal/fsx"
 )
 
 func TestIconForFile(t *testing.T) {

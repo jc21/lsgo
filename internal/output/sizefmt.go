@@ -4,8 +4,8 @@ import (
 	"strconv"
 	"strings"
 
-	"lsgo/internal/style"
-	"lsgo/internal/theme"
+	"github.com/jc21/lsgo/internal/style"
+	"github.com/jc21/lsgo/internal/theme"
 )
 
 // SizeFormat selects how the file-size column's numbers are formatted.

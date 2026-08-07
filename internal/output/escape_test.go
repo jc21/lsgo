@@ -4,7 +4,7 @@ import (
 	"strings"
 	"testing"
 
-	"lsgo/internal/style"
+	"github.com/jc21/lsgo/internal/style"
 )
 
 func TestEscapeIntoAllPrintable(t *testing.T) {

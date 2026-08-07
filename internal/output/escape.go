@@ -3,7 +3,7 @@ package output
 import (
 	"fmt"
 
-	"lsgo/internal/style"
+	"github.com/jc21/lsgo/internal/style"
 )
 
 // escapeInto appends s to cell, painting ordinary printable runs with

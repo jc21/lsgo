@@ -7,7 +7,7 @@ import (
 	"strings"
 	"testing"
 
-	"lsgo/internal/cli"
+	"github.com/jc21/lsgo/internal/cli"
 )
 
 func runApp(t *testing.T, dir string, args ...string) (stdout, stderr string) {

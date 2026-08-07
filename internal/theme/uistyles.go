@@ -3,7 +3,7 @@
 // output renderers paint text with.
 package theme
 
-import "lsgo/internal/style"
+import "github.com/jc21/lsgo/internal/style"
 
 // FileKinds holds the styles used to colour a filename based on what kind
 // of filesystem entry it is.

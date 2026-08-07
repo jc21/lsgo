@@ -8,10 +8,10 @@ import (
 	"fmt"
 	"io"
 
-	"lsgo/internal/cli"
-	"lsgo/internal/fsx"
-	"lsgo/internal/output"
-	"lsgo/internal/theme"
+	"github.com/jc21/lsgo/internal/cli"
+	"github.com/jc21/lsgo/internal/fsx"
+	"github.com/jc21/lsgo/internal/output"
+	"github.com/jc21/lsgo/internal/theme"
 )
 
 // Exit codes, matching the reference implementation's conventions.

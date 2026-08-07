@@ -1,6 +1,6 @@
 package theme
 
-import "lsgo/internal/fsx"
+import "github.com/jc21/lsgo/internal/fsx"
 
 // Icon code points are written as explicit \u/\U escapes (rather than
 // literal glyphs) throughout this file, since they're drawn from Nerd

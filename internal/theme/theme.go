@@ -1,6 +1,6 @@
 package theme
 
-import "lsgo/internal/style"
+import "github.com/jc21/lsgo/internal/style"
 
 // UseColours controls under what circumstances coloured output is used.
 type UseColours int

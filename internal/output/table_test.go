@@ -9,7 +9,7 @@ import (
 	"strings"
 	"testing"
 
-	"lsgo/internal/fsx"
+	"github.com/jc21/lsgo/internal/fsx"
 )
 
 func fullTableOptions() TableOptions {

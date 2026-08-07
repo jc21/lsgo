@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"io"
 
-	"lsgo/internal/fsx"
-	"lsgo/internal/theme"
-	"lsgo/internal/xattr"
+	"github.com/jc21/lsgo/internal/fsx"
+	"github.com/jc21/lsgo/internal/theme"
+	"github.com/jc21/lsgo/internal/xattr"
 )
 
 // RecurseOptions controls how far (and whether, as a tree) the details

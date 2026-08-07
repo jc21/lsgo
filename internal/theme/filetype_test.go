@@ -5,8 +5,8 @@ import (
 	"path/filepath"
 	"testing"
 
-	"lsgo/internal/fsx"
-	"lsgo/internal/style"
+	"github.com/jc21/lsgo/internal/fsx"
+	"github.com/jc21/lsgo/internal/style"
 )
 
 func mustFile(t *testing.T, dir, name string) *fsx.File {

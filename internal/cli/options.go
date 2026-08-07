@@ -6,9 +6,9 @@ import (
 	"strconv"
 	"strings"
 
-	"lsgo/internal/fsx"
-	"lsgo/internal/output"
-	"lsgo/internal/theme"
+	"github.com/jc21/lsgo/internal/fsx"
+	"github.com/jc21/lsgo/internal/output"
+	"github.com/jc21/lsgo/internal/theme"
 )
 
 // ViewMode selects which of lsgo's overall layouts is used.

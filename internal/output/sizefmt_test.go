@@ -4,7 +4,7 @@ import (
 	"strings"
 	"testing"
 
-	"lsgo/internal/theme"
+	"github.com/jc21/lsgo/internal/theme"
 )
 
 func TestFormatThousands(t *testing.T) {

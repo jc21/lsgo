@@ -4,8 +4,8 @@ import (
 	"path/filepath"
 	"strings"
 
-	"lsgo/internal/fsx"
-	"lsgo/internal/style"
+	"github.com/jc21/lsgo/internal/fsx"
+	"github.com/jc21/lsgo/internal/style"
 )
 
 // FileColourer decides which style, if any, a filename-based rule (as

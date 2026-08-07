@@ -8,9 +8,9 @@ import (
 	"fmt"
 	"os"
 
-	"lsgo/internal/app"
-	"lsgo/internal/cli"
-	"lsgo/internal/termwidth"
+	"github.com/jc21/lsgo/internal/app"
+	"github.com/jc21/lsgo/internal/cli"
+	"github.com/jc21/lsgo/internal/termwidth"
 )
 
 func main() {

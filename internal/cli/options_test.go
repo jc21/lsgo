@@ -3,8 +3,8 @@ package cli
 import (
 	"testing"
 
-	"lsgo/internal/fsx"
-	"lsgo/internal/output"
+	"github.com/jc21/lsgo/internal/fsx"
+	"github.com/jc21/lsgo/internal/output"
 )
 
 // The four view-mode flags, named since TestModeSelectionPrecedence's table

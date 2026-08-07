@@ -5,9 +5,9 @@ import (
 	"strconv"
 	"time"
 
-	"lsgo/internal/fsx"
-	"lsgo/internal/style"
-	"lsgo/internal/theme"
+	"github.com/jc21/lsgo/internal/fsx"
+	"github.com/jc21/lsgo/internal/style"
+	"github.com/jc21/lsgo/internal/theme"
 )
 
 // TimeType selects which of a file's timestamps a Timestamp column shows.

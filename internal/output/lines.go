@@ -1,8 +1,8 @@
 package output
 
 import (
-	"lsgo/internal/fsx"
-	"lsgo/internal/theme"
+	"github.com/jc21/lsgo/internal/fsx"
+	"github.com/jc21/lsgo/internal/theme"
 )
 
 // RenderOneLine renders files one per line (the -1/--oneline view), each

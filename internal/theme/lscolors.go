@@ -4,7 +4,7 @@ import (
 	"strconv"
 	"strings"
 
-	"lsgo/internal/style"
+	"github.com/jc21/lsgo/internal/style"
 )
 
 // ColourPair is one "key=value" entry from an LS_COLORS string, before

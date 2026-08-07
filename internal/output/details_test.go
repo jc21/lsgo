@@ -7,8 +7,8 @@ import (
 	"strings"
 	"testing"
 
-	"lsgo/internal/fsx"
-	"lsgo/internal/xattr"
+	"github.com/jc21/lsgo/internal/fsx"
+	"github.com/jc21/lsgo/internal/xattr"
 )
 
 func TestIsTooDeep(t *testing.T) {

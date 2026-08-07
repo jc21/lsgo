@@ -10,10 +10,35 @@ table, or a tree.
 ## Install / build
 
 ```sh
+go install github.com/jc21/lsgo@latest
+
+# or
+
+git clone https://github.com/jc21/lsgo.git
+cd lsgo
 go build -o lsgo .
 ```
 
 This produces a single `lsgo` binary with no runtime dependencies.
+
+
+## Install via Homebrew
+
+```bash
+export HOMEBREW_NO_INSTALL_FROM_API=1
+brew update
+brew tap --force homebrew/core
+cd $(brew --repo homebrew/core)
+git remote add jc21 https://github.com/jc21/homebrew-core.git
+git fetch --all
+git checkout jc21/lsgo
+brew install --build-from-source lsgo
+# and if you need to rebuild:
+brew reinstall --build-from-source lsgo
+# Switch back to homebrew-core master
+git checkout master
+```
+
 
 ## Usage
 

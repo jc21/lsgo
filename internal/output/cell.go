@@ -5,8 +5,8 @@ package output
 import (
 	"strings"
 
-	"lsgo/internal/style"
-	"lsgo/internal/textwidth"
+	"github.com/jc21/lsgo/internal/style"
+	"github.com/jc21/lsgo/internal/textwidth"
 )
 
 // Cell accumulates styled text fragments alongside their combined display
